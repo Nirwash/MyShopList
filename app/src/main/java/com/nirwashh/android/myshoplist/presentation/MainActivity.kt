@@ -1,14 +1,12 @@
 package com.nirwashh.android.myshoplist.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.nirwashh.android.myshoplist.R
 import com.nirwashh.android.myshoplist.databinding.ActivityMainBinding
-import com.nirwashh.android.myshoplist.domain.ShopItem
+import com.nirwashh.android.myshoplist.presentation.ShopListAdapter.Companion.MAX_POOL_SIZE
+import com.nirwashh.android.myshoplist.presentation.ShopListAdapter.Companion.VIEW_TYPE_DISABLED
+import com.nirwashh.android.myshoplist.presentation.ShopListAdapter.Companion.VIEW_TYPE_ENABLED
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,7 +28,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapter = ShopListAdapter()
-        binding.rcViewShopList.adapter = adapter
+        with(binding.rcViewShopList) {
+            adapter = adapter
+            recycledViewPool.setMaxRecycledViews(VIEW_TYPE_ENABLED, MAX_POOL_SIZE)
+            recycledViewPool.setMaxRecycledViews(VIEW_TYPE_DISABLED, MAX_POOL_SIZE)
+
+        }
     }
 
 
