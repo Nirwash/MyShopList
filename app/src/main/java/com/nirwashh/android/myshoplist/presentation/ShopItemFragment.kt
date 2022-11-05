@@ -13,14 +13,18 @@ import com.nirwashh.android.myshoplist.databinding.FragmentShopItemBinding
 import com.nirwashh.android.myshoplist.domain.ShopItem
 import com.nirwashh.android.myshoplist.domain.ShopItem.Companion.UNDEFINED_ID
 
-class ShopItemFragment(
-    private val screenMode: String = UNDEFINED_SCREEN_MODE,
-    private val shopItemId: Int = ShopItem.UNDEFINED_ID
-) : Fragment() {
+class ShopItemFragment : Fragment() {
     private var _binding: FragmentShopItemBinding? = null
     private val binding get() = _binding!!
     private lateinit var shopItemViewModel: ShopItemViewModel
 
+    private var screenMode: String = UNDEFINED_SCREEN_MODE
+    private var shopItemId: Int = UNDEFINED_ID
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        parseParams()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,7 +37,6 @@ class ShopItemFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        parseParams()
         shopItemViewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
         addTextChangeListeners()
         launchRightMode()
@@ -54,16 +57,10 @@ class ShopItemFragment(
             binding.tilName.error = message
         }
         shopItemViewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            requireActivity().finish()
+            activity?.onBackPressed()
         }
     }
 
-    private fun launchRightMode() {
-        when (screenMode) {
-            MODE_ADD -> launchAddMode()
-            MODE_EDIT -> launchEditMode()
-        }
-    }
 
     private fun addTextChangeListeners() {
         binding.etName.addTextChangedListener(object : MainTextWatcher {
@@ -76,6 +73,13 @@ class ShopItemFragment(
                 shopItemViewModel.resetErrorInputCount()
             }
         })
+    }
+
+    private fun launchRightMode() {
+        when (screenMode) {
+            MODE_ADD -> launchAddMode()
+            MODE_EDIT -> launchEditMode()
+        }
     }
 
     private fun launchAddMode() {
@@ -100,11 +104,20 @@ class ShopItemFragment(
     }
 
     private fun parseParams() {
-        if (screenMode != MODE_ADD && screenMode != MODE_EDIT) {
+        val args = requireArguments()
+        if (!args.containsKey(EXTRA_SCREEN_MODE)) {
             throw RuntimeException("Param screen mode is absent")
         }
-        if (screenMode == MODE_EDIT && shopItemId == UNDEFINED_ID) {
+        val mode = args.getString(EXTRA_SCREEN_MODE)
+        if (mode != MODE_EDIT && mode != MODE_ADD) {
+            throw RuntimeException("Unknown screen mode $mode")
+        }
+        screenMode = mode
+        if (screenMode == MODE_EDIT) {
+            if (!args.containsKey(EXTRA_SHOP_ITEM_ID)) {
                 throw RuntimeException("Param shop item id is absent")
+            }
+            shopItemId = args.getInt(EXTRA_SHOP_ITEM_ID, UNDEFINED_ID)
         }
     }
 
@@ -121,17 +134,17 @@ class ShopItemFragment(
         private const val MODE_ADD = "mode_add"
         private const val UNDEFINED_SCREEN_MODE = ""
 
-        fun newIntentAddItem(context: Context): Intent {
-            val intent = Intent(context, ShopItemActivity::class.java)
-            intent.putExtra(EXTRA_SCREEN_MODE, MODE_ADD)
-            return intent
+        fun newInstanceAddItem(): ShopItemFragment = ShopItemFragment().apply {
+            arguments = Bundle().apply {
+                putString(EXTRA_SCREEN_MODE, MODE_ADD)
+            }
         }
 
-        fun newIntentEditItem(context: Context, shopItemId: Int): Intent {
-            val intent = Intent(context, ShopItemActivity::class.java)
-            intent.putExtra(EXTRA_SCREEN_MODE, MODE_EDIT)
-            intent.putExtra(EXTRA_SHOP_ITEM_ID, shopItemId)
-            return intent
+        fun newInstanceEditItem(shopItemId: Int) = ShopItemFragment().apply {
+            arguments = Bundle().apply {
+                putString(EXTRA_SCREEN_MODE, MODE_EDIT)
+                putInt(EXTRA_SHOP_ITEM_ID, shopItemId)
+            }
         }
     }
 }

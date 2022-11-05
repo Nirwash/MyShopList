@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/shop_item_container"
-    android:name="com.nirwashh.android.myshoplist.presentation.ShopItemFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:layout="@layout/fragment_shop_item"
