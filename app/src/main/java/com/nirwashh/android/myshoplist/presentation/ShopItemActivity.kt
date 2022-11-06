@@ -9,7 +9,7 @@ import com.nirwashh.android.myshoplist.R
 import com.nirwashh.android.myshoplist.databinding.ActivityShopItemBinding
 import com.nirwashh.android.myshoplist.domain.ShopItem
 
-class ShopItemActivity : AppCompatActivity() {
+class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
     private lateinit var binding: ActivityShopItemBinding
     private var screenMode: String = UNDEFINED_SCREEN_MODE
     private var shopItemId: Int = ShopItem.UNDEFINED_ID
@@ -69,5 +69,9 @@ class ShopItemActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_SHOP_ITEM_ID, shopItemId)
             return intent
         }
+    }
+
+    override fun onEditingFinished() {
+        finish()
     }
 }
