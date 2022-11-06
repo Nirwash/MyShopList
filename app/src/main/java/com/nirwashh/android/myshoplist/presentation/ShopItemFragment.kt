@@ -40,7 +40,7 @@ class ShopItemFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentShopItemBinding.inflate(layoutInflater, container, false)
         Log.d("ShopItemFragment", "onCreateView")
         return binding.root
@@ -171,10 +171,6 @@ class ShopItemFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         Log.d("ShopItemFragment", "onDetach")
-    }
-
-    interface OnEditingFinishedListener {
-        fun onEditingFinished()
     }
 
     interface OnEditingFinishedListener {
