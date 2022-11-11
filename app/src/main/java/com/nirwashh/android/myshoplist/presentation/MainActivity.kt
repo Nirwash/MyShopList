@@ -89,7 +89,8 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
     private fun setupClickListener() {
         shopListAdapter.onShopItemClickListener = {
             if (isOnePaneMode()) {
-                val intent = ShopItemActivity.newIntentEditItem(this@MainActivity, shopItemId = it.id)
+                val intent =
+                    ShopItemActivity.newIntentEditItem(this@MainActivity, shopItemId = it.id)
                 startActivity(intent)
             } else {
                 launchFragment(ShopItemFragment.newInstanceEditItem(shopItemId = it.id))
