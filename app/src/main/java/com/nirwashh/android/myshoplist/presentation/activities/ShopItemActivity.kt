@@ -1,4 +1,4 @@
-package com.nirwashh.android.myshoplist.presentation
+package com.nirwashh.android.myshoplist.presentation.activities
 
 
 import android.content.Context
@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.nirwashh.android.myshoplist.R
 import com.nirwashh.android.myshoplist.databinding.ActivityShopItemBinding
 import com.nirwashh.android.myshoplist.domain.ShopItem
+import com.nirwashh.android.myshoplist.presentation.ShopItemFragment
 
 class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
     private lateinit var binding: ActivityShopItemBinding

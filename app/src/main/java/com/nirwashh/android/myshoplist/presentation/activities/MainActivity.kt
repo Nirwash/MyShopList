@@ -1,4 +1,4 @@
-package com.nirwashh.android.myshoplist.presentation
+package com.nirwashh.android.myshoplist.presentation.activities
 
 import android.os.Bundle
 import android.widget.Toast
@@ -9,9 +9,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.nirwashh.android.myshoplist.R
 import com.nirwashh.android.myshoplist.databinding.ActivityMainBinding
+import com.nirwashh.android.myshoplist.presentation.ShopItemFragment
+import com.nirwashh.android.myshoplist.presentation.ShopListAdapter
 import com.nirwashh.android.myshoplist.presentation.ShopListAdapter.Companion.MAX_POOL_SIZE
 import com.nirwashh.android.myshoplist.presentation.ShopListAdapter.Companion.VIEW_TYPE_DISABLED
 import com.nirwashh.android.myshoplist.presentation.ShopListAdapter.Companion.VIEW_TYPE_ENABLED
+import com.nirwashh.android.myshoplist.presentation.viewmodels.MainViewModel
 
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
