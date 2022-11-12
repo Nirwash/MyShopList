@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.nirwashh.android.myshoplist.R
 import com.nirwashh.android.myshoplist.databinding.FragmentShopItemBinding
 import com.nirwashh.android.myshoplist.domain.ShopItem.Companion.UNDEFINED_ID
+import com.nirwashh.android.myshoplist.presentation.viewmodels.ShopItemViewModel
 
 class ShopItemFragment : Fragment() {
     private var _binding: FragmentShopItemBinding? = null
